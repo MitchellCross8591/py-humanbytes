@@ -10,10 +10,12 @@ Format byte counts as KB/MB/GB and parse them back — dependency-free.
 
 Python Humanbytes uses only the python standard library; there is no service or dependency to install.
 
-If you've ever been woken up at 3 AM by a missed job because a size check overflowed an int, you know why this exists. The code is short, testable, and does exactly one thing: turn a raw byte count into something a human can read at a glance, and turn that string back into the number you started with.
+Here's the core idea: you have a number of bytes, and you want to show it as something a human can read without squinting. Same goes for the reverse — turn "1.5 GB" back into an integer. Both directions are covered, and both stick to what the standard library gives you.
 
-The formatting side handles the usual units — KB, MB, GB — and picks the right one based on magnitude. Parsing does the reverse, accepting the output it produces and returning the exact byte count. Round-trip safe, so you can store the human-readable form and trust it.
+The implementation is small enough to read in one sitting. No hidden state, no global config. You call a function, you get a string or an int back. That's the contract.
 
-No magic, no hidden state. Just functions you can call from a cron job, a queue worker, or a one-off script. The test file sits right next to the implementation, so you can see the expected behavior without digging through docs.
+For formatting, the function picks the right unit based on powers of 1024. It rounds to two decimal places, which keeps the output tidy for both tiny files and large blobs. Parsing is the inverse: it splits the string, validates the unit, and multiplies. If the input is malformed, you get a clear error instead of a silent wrong answer.
 
-If you need to log sizes in a way that doesn't make your pager go off with a wall of digits, this is the tool. It won't fix your monitoring, but it'll make the alerts a little less painful to read.
+Why bother? Because in production, you will eventually log a byte count or accept one from a config file. When that happens, you want the conversion to be predictable. This module makes it predictable, and it's trivial to test — the test file next to it exercises the edge cases you'd care about: zero bytes, negative values, fractional input, and unit boundaries.
+
+If you need to adjust the precision or add a new unit, the code is short enough that the change is obvious. No magic, no surprises.
