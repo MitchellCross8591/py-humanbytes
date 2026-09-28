@@ -3,8 +3,8 @@
 ```
 humanbytes.py
 ```
-We added this after a recent postmortem. A queue consumer logged raw byte counts, making it impossible to triage disk pressure alerts from the logs. Run the Python Humanbytes test next to the implementation to verify the formatting logic.
+Run the Python Humanbytes test next to the implementation for concrete examples.
 
-The utility formats raw byte counts as KB, MB, or GB and parses those strings back into integers. Ensure your parsing logic remains idempotent when handling these conversions.
+Format byte counts as KB/MB/GB and parse them back — dependency-free.
 
-Python Humanbytes relies entirely on the standard library. There are no external packages to install and no backend services to configure.
+Python Humanbytes uses only the python standard library; there is no service or dependency to install.
