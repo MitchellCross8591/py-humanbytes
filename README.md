@@ -3,8 +3,6 @@
 ```
 humanbytes.py
 ```
-Run the Python Humanbytes test next to the implementation for concrete examples.
+We built this after a few too many pages caused by queue workers choking on misformatted payload sizes. You format raw byte counts into standard KB, MB, or GB strings. Then you parse those strings back into integers. The whole process is strictly dependency-free.
 
-Format byte counts as KB/MB/GB and parse them back — dependency-free.
-
-Python Humanbytes uses only the python standard library; there is no service or dependency to install.
+Run the Python Humanbytes test suite next to the implementation to see concrete examples. The module relies entirely on the standard library. You do not need to install external services or third-party packages to get this running in your environment.
